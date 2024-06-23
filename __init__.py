@@ -20,6 +20,7 @@ ParentWindow = None
 if DCC == "maya":
     import maya.OpenMayaUI as omui
     import maya.OpenMaya as om
+    from maya import cmds
     from shiboken2 import wrapInstance
     ParentWindow = wrapInstance(int(omui.MQtUtil.mainWindow()), QMainWindow)
 
@@ -745,7 +746,7 @@ class TreeWidget(QTreeWidget):
         selectedItems = self.selectedItems()
         if not selectedItems:
             return
-        
+
         msg = "\n".join([item.module.name for item in selectedItems])
 
         if QMessageBox.question(self, "Rig Builder", "Send modules to server?\n"+msg, QMessageBox.Yes and QMessageBox.No, QMessageBox.Yes) != QMessageBox.Yes:
@@ -807,7 +808,7 @@ class TreeWidget(QTreeWidget):
 
         if QMessageBox.question(self, "Rig Builder", "Save modules?\n"+msg, QMessageBox.Yes and QMessageBox.No, QMessageBox.Yes) != QMessageBox.Yes:
             return
-        
+
         for item in selectedItems:
             outputPath = item.module.getSavePath()
 
@@ -843,7 +844,7 @@ class TreeWidget(QTreeWidget):
 
         if QMessageBox.question(self, "Rig Builder", "Embed modules?\n"+msg, QMessageBox.Yes and QMessageBox.No, QMessageBox.Yes) != QMessageBox.Yes:
             return
-            
+
         for item in selectedItems:
             item.module.uid = ""
             item.module.loadedFrom = ""
@@ -861,7 +862,7 @@ class TreeWidget(QTreeWidget):
         msg = "\n".join([item.module.name for item in selectedItems])
         if QMessageBox.question(self, "Rig Builder", "Update modules?\n"+msg, QMessageBox.Yes and QMessageBox.No, QMessageBox.Yes) != QMessageBox.Yes:
             return
-        
+
         for item in selectedItems:
             item.module.update()
 
