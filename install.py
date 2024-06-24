@@ -22,14 +22,16 @@ AVAILABLE_VERSIONS = [2023, 2024]
 MODULE_VERSION = 'any'
 SHELF_ICON_FILE = 'pythonFamily.png'
 SHELF_BUTTON_COMMAND = '''
-Write command here
+from imp import reload
+import rigBuilder; reload(rigBuilder)
+rigBuilder.mainWindow.show()
 '''
 
 
 def onMayaDroppedPythonFile(*args, **kwargs):
     removeOldInstallModule()
     addEnvPaths()
-    # addShelfButtons()
+    addShelfButtons()
     createModuleFile()
     cmds.confirmDialog(title='Info', message='"{}" module is installed successfully.'.format(MODULE_NAME))
 
@@ -64,26 +66,27 @@ def addEnvPaths():
     # mel.eval('putenv "XBMLANGPATH" "{}";'.format(iconPaths))
 
 
-# def addShelfButtons():
-#     curShelf = getCurrentShelf()
+def addShelfButtons():
+    curShelf = getCurrentShelf()
 
-#     cmds.shelfButton(
-#         command=SHELF_BUTTON_COMMAND,
-#         annotation=MODULE_NAME,
-#         sourceType='Python',
-#         image=SHELF_ICON_FILE,
-#         image1=SHELF_ICON_FILE,
-#         parent=curShelf
-#     )
+    cmds.shelfButton(
+        command=SHELF_BUTTON_COMMAND,
+        annotation=MODULE_NAME,
+        sourceType='Python',
+        image=SHELF_ICON_FILE,
+        image1=SHELF_ICON_FILE,
+        imageOverlayLabel='RB',
+        parent=curShelf
+    )
 
 
-# def getCurrentShelf():
-#     curShelf = None
+def getCurrentShelf():
+    curShelf = None
 
-#     shelf = mel.eval('$gShelfTopLevel = $gShelfTopLevel')
-#     curShelf = cmds.tabLayout(shelf, query=True, selectTab=True)
+    shelf = mel.eval('$gShelfTopLevel = $gShelfTopLevel')
+    curShelf = cmds.tabLayout(shelf, query=True, selectTab=True)
 
-#     return curShelf
+    return curShelf
 
 
 # Folders in the module directory that named as "icons, plug-ins, scripts" are automatically added to the maya environment variables.
