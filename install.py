@@ -94,7 +94,7 @@ def createModuleFile():
     moduleFileName = '{}.mod'.format(MODULE_NAME)
 
     contentsBlock = '''+ MAYAVERSION:{0} {1} {2} {3}
-PYTHONPATH +:= {4}
+PYTHONPATH += {4}
 
 '''
     contents = ''
